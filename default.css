@@ -16,6 +16,13 @@ body{
 	margin-top:10px;
 }
 
+a{
+	color:#DDDDDD;
+}
+a:visited{
+	color:#DDDDDD
+}
+
 .optionBox {
 	width:100%;
 	height:auto;
