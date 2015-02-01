@@ -249,8 +249,8 @@ Find the colors that represent the picture. Large image take a long time to get 
 			var str = "";
 			switch(phase){
 				case 0: str= "Get primitive sample"; break;
-				case 1: str= "Remove doubled sample"; break;
-				case 2: str= "Merge near sample "+pdata.length; break;
+				case 1: str= "Remove doubled samples"; break;
+				case 2: str= "Merge adjacent samples "+pdata.length; break;
 				case 3: str= "Set categories"; break;
 				case 4: str= "K mean clustering "+loopNum; break;
 				case 5: str= "Done"; break;
