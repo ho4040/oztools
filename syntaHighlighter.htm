@@ -1,9 +1,21 @@
+
+
 <textarea id="content" style='width:100%;height:200px'></textarea><br>
 <button onclick="submit()"> RUN </button>
 <hr>
 <b>RESULT</b>
 <div id="output"></div>
 <script>
+	//Test from https://www.regex101.com/r/zS5gG6/2
+	var types = [
+		{id:'[', pat:/(\[)/i, ignore:false },
+		{id:']', pat:/(\])/i, ignore:false },
+		{id:'macroName', pat:/\[([a-z,A-Z,ㄱ-힣])/i, ignore:false },
+		{id:'attrName', pat:/(?:\s)([^0-9]\S*)(?:\s*=)/i, ignore:false },
+		{id:'attrValue', pat:/(?:[="'])([^"'\]]+)["'\]]?/i, ignore:false}
+	]
+
+
 	function submit(){
 		var data = document.getElementById('content').value;
 		var div = document.getElementById('output');
