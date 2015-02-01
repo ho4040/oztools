@@ -1,0 +1,114 @@
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+body{
+	font-family: "Nanum Gothic", sans-serif;
+}
+
+.dragBox {
+	width:100%;
+	height:auto;
+	border: 2px dashed  #7C7F7F;
+	background-color:#CCCCCC;
+
+	vertical-align: middle;	
+	font-weight: bold;
+	border-radius: 7px;
+	margin-top:10px;
+}
+
+.optionBox {
+	width:100%;
+	height:auto;
+	border: 1px none  #7C7F7F;
+	background-color:#CCCCCC;
+
+	vertical-align: middle;	
+	border-radius: 5px;
+	margin-top:5px;
+}
+
+.dragBoxHover {
+	width:100%;
+	height:auto;
+	border: 2px dashed  #0066FF;
+	background-color:#66CCFF;
+
+	vertical-align: middle;	
+	font-weight: bold;
+	border-radius: 7px;
+	margin-top:10px;
+}
+
+.thumb {
+	height: 75px;
+	border: 2px solid #000;
+	margin: 5px 5px 5px 5px;
+	cursor: pointer
+}
+
+.thumb:hover {
+	height: 75px;
+	border: 2px solid #FF88FF;
+	margin: 5px 5px 5px 5px;
+	cursor: pointer
+}
+
+
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+.thumbSelected {
+	height: 75px;
+	border: 2px solid #0066FF;
+	margin: 5px 5px 5px 5px;
+	cursor: pointer
+}
+
+.centerP {
+	text-align:center;
+	font-size:20pt;		
+	color:#FFFFFF
+}
+
+.scr {
+	border: 1px solid #000000;
+	background-image: url("http://i.imgur.com/FsfLnJx.png");
+	background-repeat: repeat;
+	z-index: -1;
+	margin-top:5px;
+}
+
+h1{
+	margin-bottom:0px;
+	margin-top:0px;
+	font-family: "Nanum Gothic", sans-serif;
+}
+
+li,ol{
+	font-size:12px;
+	margin-bottom:0px;
+	margin-top:5px;
+	font-family: "Nanum Gothic", sans-serif;
+}
+
+#colorLabel{
+	width:100px;
+}
+
+p.bottom{
+	color:#AAAAAA;
+	font-size:11px;
+	margin-bottom:0px;
+	margin-top:20px;
+	font-family: "Nanum Gothic", sans-serif;
+}
+
+.progress{
+	color:blue;
+	font-size:30px;
+	font-weight: bold;
+}
+
+span.resultBox{
+	border: 1px solid #000000;
+	font-size:11px;
+	font-family: "Nanum Gothic", sans-serif;
+}

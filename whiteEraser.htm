@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="default.css">
+	
+<h1><img src="http://i.imgur.com/xXHrEzv.png">흰색지우개(WHITE ERASER)</h1>
+<img width="50%" height="50%" src="http://i.imgur.com/v5vN99w.png"><br>
+위 예제처럼 그림에서 흰색을 투명한 색으로 만들어줍니다. (Like ubove image, white area is changed into transparent area)<br>
+<ol>
+<li>그림파일을 불러옵니다.(Load image what you want to adjust)</li>
+<li>썸네일을 목록에서 선택합니다.(Select thumbnail from the drag area)</li>
+<li>하단에 바뀐 이미지가 보이면 마우스 오른쪽 클릭, 다른이름으로 저장!(When you can see the chaged image, right click it and save as PNG file)</li>
+</ol>
+
+
+<input type="file" id="files" name="files[]" multiple />
+
+<div id="dragDiv" class="dragBox">	
+	<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
+</div>
+<canvas id="myCanvas"  class="scr" /></canvas>
+
+<script>
+	////////////////////////////////////////////////////////////
+	//on File select
+	////////////////////////////////////////////////////////////
+	function handleFileSelect(evt){
+	
+		var files = evt.target.files || evt.dataTransfer.files;
+		
+		if(evt.type=="change"){ //by fileSelect Input
+		}
+		else{					//by Drag and drop
+			FileDragHover(evt);
+			document.getElementById("files").innerHTML = "파일" + files.length + "개";
+		}
+		
+		document.getElementById('list').innerHTML = "";
+		
+		// Loop through the FileList and render image files as thumbnails.
+		for (var i = 0, f; f = files[i]; i++)
+		{
+			// Only process image files.
+			if (!f.type.match('image.*')) {
+				continue;
+			}
+
+			var reader = new FileReader();
+			var theFile = f; //for closure
+			reader.onload = function(e){
+				var span = document.createElement('span');
+				var img = document.createElement('img');
+				img.className = "thumb";
+				img.src = e.target.result;
+				img.addEventListener("click", onImageSelect);
+				span.appendChild(img);
+				document.getElementById('list').insertBefore(span, null);
+			};
+			
+			// Read in the image file as a data URL.
+			reader.readAsDataURL(f);
+			
+		}
+	}
+	
+	////////////////////////////////////////////////////////////
+	//load Image
+	////////////////////////////////////////////////////////////
+	function loadImage(dataURL){
+		var canvas = document.getElementById("myCanvas");
+		var imgObj = new Image();
+		imgObj.onload  = function( e ){
+			canvas.width  = imgObj.width;
+			canvas.height  = imgObj.height;
+			var context = canvas.getContext("2d");
+			context.drawImage(imgObj, 0,0);
+			//canvas.toDataURL("image/png");
+			runImageProc();
+		}
+		imgObj.src = dataURL;
+	}
+	
+	////////////////////////////////////////////////////////////
+	//convert image data
+	////////////////////////////////////////////////////////////
+	function runImageProc(){
+		var canvas = document.getElementById("myCanvas");
+		var w = canvas.width;
+		var h = canvas.height;
+		var ctx = canvas.getContext("2d");
+		var imgData = ctx.getImageData(0, 0, w, h );
+		
+
+		//Convert Pixels
+		
+		for(y=0;y<h;y++)
+		{
+			for(x=0;x<w;x++)
+			{
+				var index = (x + y * imgData.width) * 4;
+				var r = imgData.data[index+0];
+				var g = imgData.data[index+1];
+				var b = imgData.data[index+2];
+				var a = imgData.data[index+3];
+				
+				//calculate brightness (0x00~0xFF);
+				var brightness = (r+g+b)/3;
+				
+				imgData.data[index+0] = 0;
+				imgData.data[index+1] = 0;
+				imgData.data[index+2] = 0;
+				imgData.data[index+3] = 0xFF-brightness;
+			}
+		}
+		
+		ctx.putImageData(imgData, 0, 0);
+	}
+	
+	////////////////////////////////////////////////////////////
+	//on roll over
+	////////////////////////////////////////////////////////////
+	function FileDragHover(e) {
+		e.stopPropagation();
+		e.preventDefault();
+		e.currentTarget.className = (e.type == "dragover" ? "dragBoxHover" : "dragBox");
+	}
+	
+	////////////////////////////////////////////////////////////
+	//on Image Select
+	////////////////////////////////////////////////////////////
+	var curImg = null;
+	function onImageSelect(e){
+		if(curImg != null){
+			curImg.className = "thumb";
+		}
+		e.currentTarget.className = "thumbSelected";
+		curImg = e.currentTarget;
+		
+		loadImage(curImg.src);
+	}
+
+	////////////////////////////////////////////////////////////
+	//initialize codes
+	////////////////////////////////////////////////////////////
+	
+	document.getElementById('files').addEventListener('change', handleFileSelect, false);
+	var filedrag = document.getElementById("dragDiv");
+	filedrag.addEventListener("dragover", FileDragHover, false);
+	filedrag.addEventListener("dragleave", FileDragHover, false);
+	filedrag.addEventListener("drop", handleFileSelect, false);	
+	//window.addEventListener("resize", onWindowResize);
+	//onWindowResize(null);
+	
+
+	
+</script>
+<p class="bottom">
+구글크롬에 최적화 되어있습니다.
+작동하지 않으면 이곳을 참고(<a href="http://www.enable-javascript.com/ko/">http://www.enable-javascript.com/ko/</a>)
+</p>
