@@ -1,24 +1,51 @@
 
-
+<script src="mclexer.js"></script>
 <textarea id="content" style='width:100%;height:200px'></textarea><br>
 <button onclick="submit()"> RUN </button>
 <hr>
 <b>RESULT</b>
 <div id="output"></div>
 <script>
-	//Test from https://www.regex101.com/r/zS5gG6/2
-	var types = [
-		{id:'[', pat:/(\[)/i, ignore:false },
-		{id:']', pat:/(\])/i, ignore:false },
-		{id:'macroName', pat:/\[([a-z,A-Z,ㄱ-힣])/i, ignore:false },
-		{id:'attrName', pat:/(?:\s)([^0-9]\S*)(?:\s*=)/i, ignore:false },
-		{id:'attrValue', pat:/(?:[="'])([^"'\]]+)["'\]]?/i, ignore:false}
-	]
+
+	/* Lexing states. */
+	var INIT = new McLexer.State() ;
+	var tokens = [];
+	
+	function NUM(string) {
+		this.string = string ;
+		this.toString = function () { return "NUM(" + string + ")" ; } ;
+	}
+
+	function ID(string) {
+		this.string = string ;
+		this.toString = function () { return "ID(" + string + ")" ; } ;
+	}
+	
+	INIT (/[A-Za-z_ㄱ-힣]+/) (function (match,rest,state) {
+		tokens.push(new ID(match[0])); 
+		return state.continuation(rest) ;
+	}) ;
+	
+	INIT (/[0-9]+/) (function (match,rest,state) {
+		tokens.push(new NUM(match[0])); 
+		return state.continuation(rest) ;
+	}) ;
+	
+	INIT (/\s+/) (McCONTINUE(INIT)) ;
+
+	INIT (/$/) (function (match,rest,state) {
+		// Stop lexing.
+		return null ;
+	}) ;
+	
+	
 
 
 	function submit(){
+		tokens.length = 0;
 		var data = document.getElementById('content').value;
+		INIT.lex(data);
 		var div = document.getElementById('output');
-		div.innerHTML = data;
+		div.innerHTML = tokens.join(" ");
 	}
 </script>
