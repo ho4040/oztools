@@ -1,51 +1,213 @@
 
-<script src="mclexer.js"></script>
-<textarea id="content" style='width:100%;height:200px'></textarea><br>
+<style>
+/* 내가 만든 코드*/
+.background{
+	width:1183px;
+	height:462px;
+	margin-left: 10px;
+	background-image:url(../img/underHeaderBg.jpg);
+}
+
+.lnx_code_frame{
+	padding: 0 0 0 0;
+	margin:0 0 0 0;
+	background-color: #242424;
+	overflow:hidden;
+}
+
+.lnx_code{
+	overflow-x: auto;
+	font-size: 14px;
+	border: 0px solid gray;	
+	padding: 4px 4px 4px 4px;
+	background-color: #242424;
+	color:#fff;	
+	margin:0 0 0 0;
+}
+
+.lnx_code_lineNumber{
+	overflow-x: auto;
+	float:left;
+	font-size: 14px;
+	border: 0px solid gray;	
+	padding: 4px 4px 4px 4px;
+	background-color: #888888;
+	color:#fff;	
+	margin:0 0 0 0;
+	text-align: right;
+}
+
+.lnx_code_copyButton{
+	position:relative;
+	float:right;
+	bottom:23px;
+	right:2px;
+}
+
+.copyCodeButton{
+    height: 21px;
+    font-size: 12px;
+    background: transparent;
+    border-width: 1px;
+    border-color:#888888;
+    color: #888888;
+}
+
+
+</style>
+
+<script src="jquery-1.11.2.min.js"></script>
+<textarea id="content" style='width:100%;height:200px'>@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]
+@애니메이션 텍스트애님:
+	@노드 1:
+		@프레임 0:
+			&위치Y -150 증가
+			&위치X -150 증가
+			&회전 800
+			&색상A 0
+		@프레임 10:
+			&회전 800
+		@프레임 20:
+			&위치Y 0
+			&위치X 0
+			&회전 0
+			&색상A 255
+[대사창수정 아이디="대화" 애니메이션="텍스트애님" ]</textarea><br>
 <button onclick="submit()"> RUN </button>
 <hr>
 <b>RESULT</b>
-<div id="output"></div>
+<div id="output" class="lnx_code_frame"></div>
+
 <script>
-
-	/* Lexing states. */
-	var INIT = new McLexer.State() ;
-	var tokens = [];
 	
-	function NUM(string) {
-		this.string = string ;
-		this.toString = function () { return "NUM(" + string + ")" ; } ;
-	}
-
-	function ID(string) {
-		this.string = string ;
-		this.toString = function () { return "ID(" + string + ")" ; } ;
-	}
-	
-	INIT (/[A-Za-z_ㄱ-힣]+/) (function (match,rest,state) {
-		tokens.push(new ID(match[0])); 
-		return state.continuation(rest) ;
-	}) ;
-	
-	INIT (/[0-9]+/) (function (match,rest,state) {
-		tokens.push(new NUM(match[0])); 
-		return state.continuation(rest) ;
-	}) ;
-	
-	INIT (/\s+/) (McCONTINUE(INIT)) ;
-
-	INIT (/$/) (function (match,rest,state) {
-		// Stop lexing.
-		return null ;
-	}) ;
-	
-	
-
-
 	function submit(){
-		tokens.length = 0;
 		var data = document.getElementById('content').value;
-		INIT.lex(data);
-		var div = document.getElementById('output');
-		div.innerHTML = tokens.join(" ");
+		var output = document.getElementById('output');
+		output.innerHTML = data;
+
+		$( ".lnx_code_frame" ).each(function( index ) {
+		        var matches = [
+		             [ /\@[a-zA-Z_가-힣ㄱ-ㅎㅏ-ㅣ][a-zA-Z_0-9가-힣ㄱ-ㅎㅏ-ㅣ].*?\s/g , "<font color='#f50961' style='font-weight:bold'>" ],
+		             [ /\[.+?(\s|\])/g , "<font color='#98e22d'>" ],
+		             [ /\]/g , "<font color='#98e22d'>" ],
+		             [ /참/g , "<font color='#a772f1'>" ],
+		             [ /거짓/g , "<font color='#a772f1'>" ],
+		             [ /\t+\&/g , "<font color='#f50961'>" ],             
+		             [ /".*?"/g , "<font color='#e4db6d'>" ],
+
+		        ]		        
+		        var text = $( this ).text()
+		        codes[index] = text;
+		        text = text.replace(/\n\n/g,"\n")
+		        for(var i in matches){
+		            var match = matches[i]
+		            text = text.replace(match[0], function(m, contents, offset, s){
+		                return match[1]+m+"</font>";
+		            });
+		        }
+
+		        $( this ).html("<pre id='lanxCodeContent' class='lnx_code'>"+text+"</pre>");
+		    });
+
+		$( "#lanxCodeContent" ).each(function( index ) {
+			var e = $( this );
+			var code = e.text();
+			var lines = code.match(/\n/g);
+			var lineNumbers = [];
+			for( i=0; i<lines.length+1; i++){
+				lineNumbers.push(i);
+			}
+			$( this ).before("<div class='lnx_code_lineNumber'>"+lineNumbers.join("<br>")+"</div>");
+		});
+
 	}
 </script>

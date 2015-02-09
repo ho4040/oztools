@@ -1,45 +1,3 @@
-/*
-  McLexer: A lexcial analysis system/library for JavaScript.
-  Author:  Matthew Might
-  Site:    http://matt.might.net/
-           http://www.ucombinator.com/
-
-  McLexer associates rules with analysis states.
-
-  Each rule contains a regular expression to match, 
-  and action to execute upon finding a match.
-
-  When a state matches its rules against an input text, 
-  it chooses the rule with the longest match against the prefix 
-  of the input text.
-
- */
-
-
-/*
-  A lexical state is a collection of rules.
-
-  It has three primary methods:
-
-  + lex(input) runs a continuation-based lexer on the input;
-    lex invokes next once, and expects a continuation back;
-    it then invokes the continuation and expects each continuation
-    it invokes to return another continuation.  Once a continuation
-    returns null; parsing is complete.     
-
-  + run(input) runs a match against a input, fires the action.
-    An action is a procedure that accepts the match data (an array),
-    the remainder of the input, and the current state.
-
-  + continuation(input) returns a continuation that, when executed,
-    continues to lex the input.  
-
-  A lexical state itself is also a Curried function, and when
-  executed, it takes a regular expression to match, and then an action
-  to execute upon matching; it adds this pair to its internal list of
-  rules.
-                       
- */
 function McState() {
 
  var that = this ;
@@ -114,7 +72,7 @@ function McRunMethod(input) {
 
 /* Creates a continuation that switches analysis to another lexical state.  */
 function McCONTINUE(state) {
-  return function (match, rest) {
+  return function (rest) {
     return state.run(rest) ;
   }
 }
