@@ -8,7 +8,14 @@
 <script>
 
 	/* Lexing states. */
-	var INIT = new McLexer.State() ;
+	var INIT = new McLexer.State();
+	var MACRO = new McLexer.State();
+	var MACROPARAM = new McLexer.State();
+	var STRING1 = new McLexer.State();
+	var STRING2 = new McLexer.State();
+	var EXPARAM = new McLexer.State();
+	var COMMENT = new McLexer.State();
+	
 	var tokens = [];
 	
 	function NUM(string) {
@@ -21,6 +28,11 @@
 		this.toString = function () { return "ID(" + string + ")" ; } ;
 	}
 	
+	function OP(string) {
+		this.string = string;
+		this.toString = function(){ return "OP("+string+")"; } ;
+	}
+	
 	INIT (/[A-Za-z_ㄱ-힣]+/) (function (match,rest,state) {
 		tokens.push(new ID(match[0])); 
 		return state.continuation(rest) ;
@@ -30,8 +42,9 @@
 		tokens.push(new NUM(match[0])); 
 		return state.continuation(rest) ;
 	}) ;
+
 	
-	INIT (/\s+/) (McCONTINUE(INIT)) ;
+	INIT (/\s+/) (McIGNORE()) ;
 
 	INIT (/$/) (function (match,rest,state) {
 		// Stop lexing.

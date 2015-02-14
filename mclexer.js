@@ -112,10 +112,11 @@ function McRunMethod(input) {
   }
 }
 
-/* Creates a continuation that switches analysis to another lexical state.  */
-function McCONTINUE(state) {
-  return function (match, rest) {
-    return state.run(rest) ;
+
+
+function McIGNORE() {
+  return function (match, rest, state) {
+	return state.run(rest) ;
   }
 }
 
