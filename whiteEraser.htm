@@ -13,6 +13,7 @@
 
 
 <input type="file" id="files" name="files[]" multiple />
+<button id="saveButton">save</button>
 
 <div id="dragDiv" class="dragBox">	
 	<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
@@ -113,6 +114,8 @@
 		}
 		
 		ctx.putImageData(imgData, 0, 0);
+		
+		
 	}
 	
 	////////////////////////////////////////////////////////////
@@ -147,8 +150,16 @@
 	filedrag.addEventListener("dragover", FileDragHover, false);
 	filedrag.addEventListener("dragleave", FileDragHover, false);
 	filedrag.addEventListener("drop", handleFileSelect, false);	
+	
+	document.getElementById("saveButton").addEventListener("click", function(){
+		var canvas = document.getElementById("myCanvas");
+		var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+		window.location.href=image;
+	})
 	//window.addEventListener("resize", onWindowResize);
 	//onWindowResize(null);
+	
+	
 	
 
 	
