@@ -4,6 +4,25 @@ body{
 	font-family: "Nanum Gothic", sans-serif;
 }
 
+a{
+	color:black;
+}
+a:hover{
+	color:black;
+}
+
+a:focused{
+	color:black;
+}
+
+a:active{
+	color:black;
+}
+
+a:visited{
+	color:black;
+}
+
 .dragBox {
 	width:100%;
 	height:auto;
