@@ -32,7 +32,7 @@ batch color by brightness.
 Color match setting<br>
 <div style="width:100%">
 	<div id="gradx" ></div>
-	<div id="gradx_result" style="background-color:red;" ></div>
+	<div id="gradx_result" style="background-color:silver;" ></div>
 </div>
 <canvas id="myCanvas"  class="scr" /></canvas>
 </body>
@@ -84,6 +84,7 @@ Color match setting<br>
 	////////////////////////////////////////////////////////////
 	//load Image
 	////////////////////////////////////////////////////////////
+	var lastImg = null;
 	function loadImage(dataURL){
 		var canvas = document.getElementById("myCanvas");
 		var imgObj = new Image();
@@ -92,22 +93,48 @@ Color match setting<br>
 			canvas.height  = imgObj.height;
 			var context = canvas.getContext("2d");
 			context.drawImage(imgObj, 0,0);
-			//canvas.toDataURL("image/png");
-			runImageProc();
+			lastImg = imgObj;
+			//runImageProc();
 		}
 		imgObj.src = dataURL;
 	}
 	
+	function getColor(colorSet, bright){
+		var b = bright / 255.0		
+		if(b == 1)b = 0.99999
+		if(b == 0)b = 0.00001
+		var next = null
+		var last = null
+		for(i in colorSet){
+			var c = colorSet[i]
+			var p = c[4]  //slider position
+			if(b < p){
+				next = colorSet[i];
+				last = colorSet[i-1];
+				break
+			}
+		}
+		var fl = next[4] - last[4]
+		var ll = b - last[4]
+		var r = ll/fl
+		return [
+			last[0]+(next[0] - last[0])*r,
+			last[1]+(next[1] - last[1])*r,
+			last[2]+(next[2] - last[2])*r,
+			last[3]+(next[3] - last[3])*r
+		];
+	}
+
 	////////////////////////////////////////////////////////////
 	//convert image data
 	////////////////////////////////////////////////////////////
-	function runImageProc(){
+	function runImageProc(colorSet){
 		var canvas = document.getElementById("myCanvas");
 		var w = canvas.width;
 		var h = canvas.height;
 		var ctx = canvas.getContext("2d");
+		ctx.drawImage(lastImg, 0,0);
 		var imgData = ctx.getImageData(0, 0, w, h );
-		
 
 		//Convert Pixels
 		
@@ -121,13 +148,14 @@ Color match setting<br>
 				var b = imgData.data[index+2];
 				var a = imgData.data[index+3];
 				
-				//calculate brightness (0x00~0xFF);
-				var brightness = (r+g+b)/3;
 				
-				imgData.data[index+0] = 0;
-				imgData.data[index+1] = 0;
-				imgData.data[index+2] = 0;
-				imgData.data[index+3] = 0xFF-brightness;
+				c = getColor(colorSet, (r+g+b)/3)
+
+				imgData.data[index+0] = c[0];
+				imgData.data[index+1] = c[1];
+				imgData.data[index+2] = c[2];
+				imgData.data[index+3] = c[3];
+				
 			}
 		}
 		
@@ -183,20 +211,29 @@ Color match setting<br>
 
 		$("#gradx_stop_sliders_gradx").before("<div id='grayBar'></div>")
 		$("#proc_run_button").on("click", function(){
-			var colorArr = [];
+			var colorSet = [];
 			for( i in gradx.sliders ){
 				var obj = gradx.sliders[i]
 				var colorStr = obj[0]
 				var position = obj[1]
 				var values = colorStr.match(/[\d\.]+/g);
-				if(colorStr.indexOf('rgba')==0){
-
-				}else{
-
-				}
-				alert(colorStr+"\n"+JSON.stringify(values) + ":" + position)
+				var colorInfo = [];
+				var brightness = position / 100;
+				if(colorStr.indexOf('rgba')==0)
+					colorInfo = [Number(values[0]),Number(values[1]),Number(values[2]),Number(values[3])]
+				else
+					colorInfo = [Number(values[0]),Number(values[1]),Number(values[2]), 255]
+				colorInfo.push(brightness)
+				colorSet.push(colorInfo);
 			}
+			$("#gradx_result").html(colorSet.join("<br>"))
 
+			if(colorSet[0][4] != 0)
+				colorSet.unshift([colorSet[0][0],colorSet[0][1],colorSet[0][2],colorSet[0][3],0])		
+			if(colorSet[colorSet.length-1][4] != 1)
+				colorSet.push([colorSet[colorSet.length-1][0],colorSet[colorSet.length-1][1],colorSet[colorSet.length-1][2],colorSet[colorSet.length-1][3],1])
+
+			runImageProc(colorSet);
 		})
 	    //$( "div, p" ).disableSelection();
 	
