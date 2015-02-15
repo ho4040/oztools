@@ -140,3 +140,8 @@ span.resultBox{
 	font-family: "Nanum Gothic", sans-serif;
 }
 
+div#grayBar{
+	background: -webkit-linear-gradient(left, rgb(0, 0, 0), rgb(255, 255, 255) 100%);
+	width:400px;
+	height:10px;
+}

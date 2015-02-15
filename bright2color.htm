@@ -6,6 +6,10 @@ batch color by brightness.
 <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
 
+<!--json-->
+
+<script src="lib/json2.js"></script>
+
 <!-- color picker -->
 <link type="text/css" rel="stylesheet" href="lib/colorpicker/css/colorpicker.css" />
 <script src="lib/colorpicker/js/colorpicker.js" type="text/javascript" charset="utf-8"></script>
@@ -14,7 +18,7 @@ batch color by brightness.
 <link type="text/css" rel="stylesheet" href="lib/gradx/gradX.css" />
 <script src="lib/gradx/gradX.js"></script>
 
-<link rel="stylesheet" type="text/css" href="http://ho4040.github.io/oztools/default.css">
+<link rel="stylesheet" type="text/css" href="default.css">
 
 </head>
 <body>
@@ -25,9 +29,12 @@ batch color by brightness.
 		<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
 	</div>	
 </div>
-<div id="gradx" ></div>
+Color match setting<br>
+<div style="width:100%">
+	<div id="gradx" ></div>
+	<div id="gradx_result" style="background-color:red;" ></div>
+</div>
 <canvas id="myCanvas"  class="scr" /></canvas>
-
 </body>
 
 
@@ -167,13 +174,31 @@ batch color by brightness.
 		})
 		$(".gradx_slectboxes").remove();
 		$("#gradx_show_code").remove();
-		$("#gradx").dialog({"title":"그라데이션 지정", "width":510, "height":250 });
+		//$("#gradx").dialog({"title":"그라데이션 지정", "width":510, "height":500 });
 		document.getElementById('files').addEventListener('change', handleFileSelect, false);
 		var filedrag = document.getElementById("dragDiv");
 		filedrag.addEventListener("dragover", FileDragHover, false);
 		filedrag.addEventListener("dragleave", FileDragHover, false);
 		filedrag.addEventListener("drop", handleFileSelect, false);	
+
+		$("#gradx_stop_sliders_gradx").before("<div id='grayBar'></div>")
+		$("#proc_run_button").on("click", function(){
+			var colorArr = [];
+			for( i in gradx.sliders ){
+				var obj = gradx.sliders[i]
+				var colorStr = obj[0]
+				var position = obj[1]
+				var values = colorStr.match(/[\d\.]+/g);
+				if(colorStr.indexOf('rgba')==0){
+
+				}else{
+
+				}
+				alert(colorStr+"\n"+JSON.stringify(values) + ":" + position)
+			}
+
+		})
+	    //$( "div, p" ).disableSelection();
 	
 	});
-	
 </script>
