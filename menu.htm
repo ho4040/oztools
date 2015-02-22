@@ -19,8 +19,6 @@ $( document ).ready(function() {
 		var fileName = name+ext;
 		var urlStr = prefix+name
 		$.ajax({url: fileName, success: function(result){
-					$("#content").html(result);
-					
 					window.history.pushState(
 						{
 							"html":result,
@@ -28,8 +26,8 @@ $( document ).ready(function() {
 						},
 						"",
 						urlStr
-				   );
-					
+					);
+					$("#content").html(result);
 				}})
 
 	}
