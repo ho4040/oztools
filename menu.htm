@@ -34,5 +34,11 @@ $( document ).ready(function() {
 			$("#content").html(result);
 		}})
 	});
+	
+	$("ul.menu li#bright2color").click(function(){
+		$.ajax({url: "bright2color.htm", success: function(result){
+			$("#content").html(result);
+		}})
+	});
 });
 </script>
