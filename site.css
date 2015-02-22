@@ -1,6 +1,12 @@
+
+
 body{
 	margin: 0 0 0 0;
 	padding: 0 0 0 0;
+}
+
+logo {
+	
 }
 
 div.leftMenu{
@@ -13,3 +19,21 @@ div.leftMenu{
 ul.menu{
 	padding-left: 10px;
 }
+
+ul.menu li a:hover{
+	color: white;
+	font-style: normal;
+	text-decoration: underline;
+}
+
+ul.menu li a:focus{
+	color: white;
+	font-style: normal;
+	text-decoration: none;
+}
+
+ul.menu li a:visited{
+	color: white;
+	font-style: normal;
+	text-decoration: none;
+}	
