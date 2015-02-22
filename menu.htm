@@ -9,22 +9,38 @@
 </ul>
 
 <script>
+function loadPage( name ){
+	var prefix = "http://ho4040.github.io/oztools/index.htm?p="
+	var ext = ".htm"
+	var fileName = name+ext;
+	$.ajax({url: fileName, success: function(result){
+				$("#content").html(result);
+				
+				window.history.pushState(
+					{
+						"html":result,
+						"pageTitle":"home"
+					},
+					"",
+					prefix+name
+			   );
+				
+			}})
+
+}
 $( document ).ready(function() {
+	
 	$("ul.menu li").hover(
 		function(){ $( this ).addClass( "menuHover" );},
 		function(){ $( this ).removeClass( "menuHover" );}
 	);
 	
 	$("ul.menu li#home").click(function(){
-		$.ajax({url: "home.htm", success: function(result){
-			$("#content").html(result);
-		}})
+		loadPage("home");
 	});
 	
 	$("ul.menu li#whiteEraser").click(function(){
-		$.ajax({url: "whiteEraser.htm", success: function(result){
-			$("#content").html(result);
-		}})
+		loadPage("whiteEraser");
 	});
 	
 	$("ul.menu li#colorMiner").click(function(){
