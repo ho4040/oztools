@@ -130,13 +130,19 @@ h1.logo {
 	text-align: center;
 }
 
-div.leftMenu{
+div#leftMenu{
 	float:left;
 	background-color: black;
 	height: 100%;
+	width: 200px;
+	position: fixed;
 	color:white;
-	padding: 10px 10px 10px 10px;
-}	
+}
+
+div#content{
+	position: relative;
+	margin-left: 210px;
+}
 
 ul.menu{
 	padding-left: 10px;
