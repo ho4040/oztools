@@ -1,0 +1,15 @@
+body{
+	margin: 0 0 0 0;
+	padding: 0 0 0 0;
+}
+
+div.leftMenu{
+	float:left;
+	background-color: black;
+	height: 100%;
+	color:white;
+}	
+
+ul.menu{
+	padding-left: 10px;
+}
