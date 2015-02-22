@@ -2,34 +2,34 @@
 <h1 class="logo">OZTOOLZ</h1>
 
 <ul class="menu">
-	<li class="menu" id="home">home</li>
-	<li class="menu" id="whiteEraser">Alpha-maker</li>
-	<li class="menu" id="alphaMaker2">Alpha-maker(portable)</li>
-	<li class="menu" id="colorMiner">Color-miner</li>
-	<li class="menu" id="bright2color">Bright2Color</li>
+	<li id="home">home</li>
+	<li id="whiteEraser">Alpha-maker</li>
+	<li id="alphaMaker2">Alpha-maker(portable)</li>
+	<li id="colorMiner">Color-miner</li>
+	<li id="bright2color">Bright2Color</li>
 
 </ul>
 
 <script>
 $( document ).ready(function() {
-	$("li.menu").hover(
+	$("ul.menu li").hover(
 		function(){ $( this ).addClass( "menuHover" );},
 		function() { $( this ).removeClass( "menuHover" );}
 	);
 	
-	$("li.#home").click(function(){
+	$("ul.menu li#home").click(function(){
 		$.ajax({url: "home.htm", success: function(result){
 			$("#content").html(result);
 		}})
 	});
 	
-	$("li.#whiteEraser").click(function(){
+	$("ul.menu li#whiteEraser").click(function(){
 		$.ajax({url: "whiteEraser.htm", success: function(result){
 			$("#content").html(result);
 		}})
 	});
 	
-	$("li.#colorMiner").click(function(){
+	$("ul.menu li#colorMiner").click(function(){
 		$.ajax({url: "colorMiner.htm", success: function(result){
 			$("#content").html(result);
 		}})
