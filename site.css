@@ -34,5 +34,5 @@ ul.menu li{
 	color: white;
 	font-style: normal;
 	text-decoration: underline;
-	font-weight: bold;
+	cursor:default;
 }
