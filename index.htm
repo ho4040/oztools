@@ -5,37 +5,15 @@
 <script>
 
 
-function getQueryParams(qs) {
-    qs = qs.split("+").join(" ");
-
-    var params = {}, tokens,
-        re = /[?&]?([^=]+)=([^&]*)/g;
-
-    while (tokens = re.exec(qs)) {
-        params[decodeURIComponent(tokens[1])]
-            = decodeURIComponent(tokens[2]);
-    }
-
-    return params;
-}
 
 $( document ).ready(function() {
 	
-	var query = getQueryParams(document.location.search);
-	var page = query['p'];
+	
 
 	$.ajax({url: "menu.htm", success: function(result){
 		$("#leftMenu").html(result);
 	}});
-	if(page==null){
-		$.ajax({url: "home.htm", success: function(result){
-			$("#content").html(result);
-		}});
-	}else{
-		$.ajax({url: page+".htm", success: function(result){
-			$("#content").html(result);
-		}});
-	}
+	
 });
 
 </script>

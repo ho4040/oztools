@@ -28,6 +28,22 @@ function loadPage( name ){
 			}})
 
 }
+
+function getQueryParams(qs) {
+    qs = qs.split("+").join(" ");
+
+    var params = {}, tokens,
+        re = /[?&]?([^=]+)=([^&]*)/g;
+
+    while (tokens = re.exec(qs)) {
+        params[decodeURIComponent(tokens[1])]
+            = decodeURIComponent(tokens[2]);
+    }
+
+    return params;
+}
+
+
 $( document ).ready(function() {
 	
 	$("ul.menu li").hover(
@@ -54,6 +70,15 @@ $( document ).ready(function() {
 	$("ul.menu li#bright2color").click(function(){
 		loadPage("bright2color");
 	});
+	
+	var query = getQueryParams(document.location.search);
+	var page = query['p'];
+	
+	if(page==null){
+		loadPage("home");
+	}else{
+		loadPage(page);
+	}
 });
 </script>
 
