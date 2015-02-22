@@ -147,7 +147,6 @@ ul.menu{
 ul.menu li{
 	color: white;
 	font-style: normal;
-	text-decoration: none;
 	cursor:default;
 }
 
@@ -155,7 +154,6 @@ ul.menu li{
 	color: white;
 	font-style: normal;
 	text-decoration: underline;
-	cursor:default;
 }
 
 
