@@ -18,7 +18,8 @@ div#leftMenu{
 
 div#content{
 	position: relative;
-	margin-left: 210px;
+	margin-left: 220px;
+	margin-right: 20px
 }
 
 .dragBox {
@@ -154,7 +155,7 @@ ul.menu{
 ul.menu li{
 	color: white;
 	font-style: normal;
-	cursor:default;
+	cursor:pointer;
 }
 
 .menuHover{
