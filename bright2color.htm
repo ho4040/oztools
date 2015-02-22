@@ -1,5 +1,5 @@
-<h1>B2C Tool</h1>
-batch color by brightness.
+<h1>Bright2Color</h1>
+
 <head>
 <!-- jquery -->
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css">
@@ -22,18 +22,27 @@ batch color by brightness.
 
 </head>
 <body>
-
+<img src='http://i.imgur.com/rzKFzv4.jpg' style='border-radius: 10px'><br>
+밝기에 따라서 색을 지정 할 수 있습니다.(Set colors by gradient setting.)<br>
+<ol>
+<li>원하는 그림파일들을 불러오세요.(load image files what you want to adjust)</li>
+<li>밝기별 색상을 설정합니다.(set colors by brightness)</li>
+<li>Source images에서 원하는 이미지를 선택한 후 Color setting의 Run 버튼을 누릅니다.(Select image from loaded image list and click 'run' from Color setting area.)</li>
+<li>Result에 결과가 보입니다. 이때 마우스 오른쪽 클릭을 하여 파일로 저장 할 수 있습니다.(Then you can see the result. you can save as file with right click)</li>
+</ol>
+<H3>Source images</H3>	
 <input type="file" id="files" name="files[]" multiple />
 <div>
 	<div id="dragDiv" class="dragBox">	
 		<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
 	</div>	
 </div>
-Color match setting<br>
+<H3>Color setting</H3>	
 <div style="width:100%">
 	<div id="gradx" ></div>
 	<div id="gradx_result" style="background-color:silver;" ></div>
 </div>
+<H3>Result</H3>	
 <canvas id="myCanvas"  class="scr" /></canvas>
 </body>
 
@@ -85,7 +94,7 @@ Color match setting<br>
 	//load Image
 	////////////////////////////////////////////////////////////
 	var lastImg = null;
-	function loadImage(dataURL){
+	function loadImage(dataURL, callback){
 		var canvas = document.getElementById("myCanvas");
 		var imgObj = new Image();
 		imgObj.onload  = function( e ){
@@ -94,7 +103,8 @@ Color match setting<br>
 			var context = canvas.getContext("2d");
 			context.drawImage(imgObj, 0,0);
 			lastImg = imgObj;
-			//runImageProc();
+			if(callback)
+				callback();
 		}
 		imgObj.src = dataURL;
 	}
@@ -154,7 +164,7 @@ Color match setting<br>
 				imgData.data[index+0] = c[0];
 				imgData.data[index+1] = c[1];
 				imgData.data[index+2] = c[2];
-				imgData.data[index+3] = c[3];
+				imgData.data[index+3] = a;
 				
 			}
 		}
@@ -184,7 +194,7 @@ Color match setting<br>
 		e.currentTarget.className = "thumbSelected";
 		curImg = e.currentTarget;
 		
-		loadImage(curImg.src);
+		loadImage(curImg.src, null);
 	}
 
 	$(function() {
@@ -226,16 +236,25 @@ Color match setting<br>
 				colorInfo.push(brightness)
 				colorSet.push(colorInfo);
 			}
-			$("#gradx_result").html(colorSet.join("<br>"))
+			//$("#gradx_result").html(colorSet.join("<br>"))
 
 			if(colorSet[0][4] != 0)
 				colorSet.unshift([colorSet[0][0],colorSet[0][1],colorSet[0][2],colorSet[0][3],0])		
 			if(colorSet[colorSet.length-1][4] != 1)
 				colorSet.push([colorSet[colorSet.length-1][0],colorSet[colorSet.length-1][1],colorSet[colorSet.length-1][2],colorSet[colorSet.length-1][3],1])
-
-			runImageProc(colorSet);
+			
+			loadImage(curImg.src, function(){
+				runImageProc(colorSet);
+			});
+			
 		})
 	    //$( "div, p" ).disableSelection();
 	
 	});
 </script>
+
+<p class="bottom">
+by OZToolz( <a href="http://ho4040.wix.com/oztoolz">http://ho4040.wix.com/oztoolz</a>)
+<p>
+
+</p><br>
