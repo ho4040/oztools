@@ -2,9 +2,9 @@
 
 <ul class="menu">
 	<li id="home">home</li>
-	<li id="whiteEraser">Alpha-maker</li>
-	<li id="alphaMaker2">Alpha-maker(portable)</li>
-	<li id="colorMiner">Color-miner</li>
+	<li id="whiteEraser">White eraser</li>
+	<li id="alphaMaker">Alpha maker</li>
+	<li id="colorMiner">Color miner</li>
 	<li id="bright2color">Bright2Color</li>
 </ul>
 
@@ -29,6 +29,12 @@ $( document ).ready(function() {
 	
 	$("ul.menu li#colorMiner").click(function(){
 		$.ajax({url: "colorMiner.htm", success: function(result){
+			$("#content").html(result);
+		}})
+	});
+	
+	$("ul.menu li#alphaMaker").click(function(){
+		$.ajax({url: "alphaMaker.htm", success: function(result){
 			$("#content").html(result);
 		}})
 	});
