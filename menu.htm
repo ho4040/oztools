@@ -17,6 +17,7 @@ $( document ).ready(function() {
 		var prefix = "http://ho4040.github.io/oztools/index.htm?p="
 		var ext = ".htm"
 		var fileName = name+ext;
+		var urlStr = prefix+name
 		$.ajax({url: fileName, success: function(result){
 					$("#content").html(result);
 					
@@ -26,7 +27,7 @@ $( document ).ready(function() {
 							"pageTitle":name
 						},
 						"",
-						prefix+name
+						urlStr
 				   );
 					
 				}})
