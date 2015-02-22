@@ -19,7 +19,7 @@ function loadPage( name ){
 				window.history.pushState(
 					{
 						"html":result,
-						"pageTitle":"home"
+						"pageTitle":name
 					},
 					"",
 					prefix+name
@@ -44,21 +44,15 @@ $( document ).ready(function() {
 	});
 	
 	$("ul.menu li#colorMiner").click(function(){
-		$.ajax({url: "colorMiner.htm", success: function(result){
-			$("#content").html(result);
-		}})
+		loadPage("colorMiner");
 	});
 	
 	$("ul.menu li#alphaMaker").click(function(){
-		$.ajax({url: "alphaMaker.htm", success: function(result){
-			$("#content").html(result);
-		}})
+		loadPage("alphaMaker");
 	});
 	
 	$("ul.menu li#bright2color").click(function(){
-		$.ajax({url: "bright2color.htm", success: function(result){
-			$("#content").html(result);
-		}})
+		loadPage("bright2color");
 	});
 });
 </script>
