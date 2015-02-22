@@ -27,6 +27,7 @@ ul.menu li{
 	color: white;
 	font-style: normal;
 	text-decoration: none;
+	cursor:default;
 }
 
 .menuHover{

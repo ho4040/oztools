@@ -17,8 +17,22 @@ $( document ).ready(function() {
 		function() { $( this ).removeClass( "menuHover" );}
 	);
 	
-	$("li.menu").click(function(){
-		alert("click!");
+	$("li.#home").click(function(){
+		$.ajax({url: "home.htm", success: function(result){
+			$("#content").html(result);
+		}})
+	});
+	
+	$("li.#whiteEraser").click(function(){
+		$.ajax({url: "whiteEraser.htm", success: function(result){
+			$("#content").html(result);
+		}})
+	});
+	
+	$("li.#colorMiner").click(function(){
+		$.ajax({url: "colorMiner.htm", success: function(result){
+			$("#content").html(result);
+		}})
 	});
 });
 </script>
