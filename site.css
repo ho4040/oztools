@@ -7,6 +7,20 @@ body{
 }
 
 
+div#leftMenu{
+	float:left;
+	background-color: black;
+	height: 100%;
+	width: 200px;
+	position: fixed;
+	color:white;
+}
+
+div#content{
+	position: relative;
+	margin-left: 210px;
+}
+
 .dragBox {
 	width:100%;
 	height:auto;
@@ -130,19 +144,6 @@ h1.logo {
 	text-align: center;
 }
 
-div#leftMenu{
-	float:left;
-	background-color: black;
-	height: 100%;
-	width: 200px;
-	position: fixed;
-	color:white;
-}
-
-div#content{
-	position: relative;
-	margin-left: 210px;
-}
 
 ul.menu{
 	padding-left: 10px;

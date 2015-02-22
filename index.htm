@@ -6,7 +6,7 @@
 
 $( document ).ready(function() {
 	$.ajax({url: "menu.htm", success: function(result){
-		$("#menu").html(result);
+		$("#leftMenu").html(result);
 	}});
 	$.ajax({url: "home.htm", success: function(result){
         $("#content").html(result);
