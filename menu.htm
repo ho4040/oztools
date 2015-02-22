@@ -2,11 +2,23 @@
 <h1 class="logo">OZTOOLZ</h1>
 
 <ul class="menu">
-	<li><a href="#">home</a></li>
-	<li><a href="whiteEraser" target='right'>Alpha-maker</a></li>
-	<li><a href="#">Alpha-maker(portable)</a></li>
-	<li><a href="#">Color-miner</a></li>
-	<li><a href="#">Bright2Color</a></li>
+	<li class="menu" id="home">home</li>
+	<li class="menu" id="whiteEraser">Alpha-maker</li>
+	<li class="menu" id="alphaMaker2">Alpha-maker(portable)</li>
+	<li class="menu" id="colorMiner">Color-miner</li>
+	<li class="menu" id="bright2color">Bright2Color</li>
 
 </ul>
 
+<script>
+$( document ).ready(function() {
+	$("li.menu").hover(
+		function(){ $( this ).addClass( "menuHover" );},
+		function() { $( this ).removeClass( "menuHover" );}
+	);
+	
+	$("li.menu").click(function(){
+		alert("click!");
+	});
+});
+</script>

@@ -14,33 +14,24 @@ div.leftMenu{
 	background-color: black;
 	height: 100%;
 	color:white;
+	padding: 10px 10px 10px 10px;
 }	
 
 ul.menu{
 	padding-left: 10px;
+	list-style-type: none;
 }
 
 
-ul.menu li a:hover{
+ul.menu li{
+	color: white;
+	font-style: normal;
+	text-decoration: none;
+}
+
+.menuHover{
 	color: white;
 	font-style: normal;
 	text-decoration: underline;
+	font-weight: bold;
 }
-
-ul.menu li a{
-	color: white;
-	font-style: normal;
-	text-decoration: none;
-}
-
-ul.menu li a:focus{
-	color: white;
-	font-style: normal;
-	text-decoration: none;
-}
-
-ul.menu li a:visited{
-	color: white;
-	font-style: normal;
-	text-decoration: none;
-}	
