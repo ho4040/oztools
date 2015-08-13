@@ -1,178 +1,200 @@
 <!DOCTYPE HTML>
 
 <meta charset="utf-8">
-<h1>WHITE ERASER </h1>
-<img src="http://i.imgur.com/v5vN99w.png" style='border-radius: 10px'><br>
-위 예제처럼 그림에서 흰색을 투명한 색으로 만들어줍니다. (Like ubove image, white area is changed into transparent area)<br>
 
-혹시 작동하지 않는다면, 오프라인 버젼인 <a href="http://ho4040.github.io/oztools/index.htm?p=alphaMaker">알파메이커</a>를 사용해보세요.<br>
+<head>
+	<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/themes/ui-lightness/jquery-ui.css">
+	<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+	<link rel="stylesheet" type="text/css" href="site.css">
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-<ol>
-<li>그림파일을 불러옵니다.(Load image what you want to adjust)</li>
-<li>썸네일을 목록에서 선택합니다.(Select thumbnail from the drag area)</li>
-<li>하단에 바뀐 이미지가 보이면 마우스 오른쪽 클릭, 다른이름으로 저장!(When you can see the chaged image, right click it and save as PNG file)</li>
-</ol>
-
-<input type="file" id="files" name="files[]" multiple />
-
-<div id="dragDiv" class="dragBox">	
-	<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
-</div>
-<canvas id="myCanvas"  class="scr" /></canvas>
-
-<script>
-	////////////////////////////////////////////////////////////
-	//on File select
-	////////////////////////////////////////////////////////////
-	function handleFileSelect(evt){
-	
-		var files = evt.target.files || evt.dataTransfer.files;
-		
-		if(evt.type=="change"){ //by fileSelect Input
-		}
-		else{					//by Drag and drop
-			FileDragHover(evt);
-			document.getElementById("files").innerHTML = "파일" + files.length + "개";
-		}
-		
-		document.getElementById('list').innerHTML = "";
-		
-		// Loop through the FileList and render image files as thumbnails.
-		for (var i = 0, f; f = files[i]; i++)
-		{
-			// Only process image files.
-			if (!f.type.match('image.*')) {
-				continue;
-			}
-
-			var reader = new FileReader();
-			var theFile = f; //for closure
-			reader.onload = function(e){
-				var span = document.createElement('span');
-				var img = document.createElement('img');
-				img.className = "thumb";
-				img.src = e.target.result;
-				img.addEventListener("click", onImageSelect);
-				span.appendChild(img);
-				document.getElementById('list').insertBefore(span, null);
-			};
-			
-			// Read in the image file as a data URL.
-			reader.readAsDataURL(f);
-			
-		}
-	}
-	
-	////////////////////////////////////////////////////////////
-	//load Image
-	////////////////////////////////////////////////////////////
-	function loadImage(dataURL){
-		var canvas = document.getElementById("myCanvas");
-		var imgObj = new Image();
-		imgObj.onload  = function( e ){
-			canvas.width  = imgObj.width;
-			canvas.height  = imgObj.height;
-			var context = canvas.getContext("2d");
-			context.drawImage(imgObj, 0,0);
-			//canvas.toDataURL("image/png");
-			runImageProc();
-		}
-		imgObj.src = dataURL;
-	}
-	
-	////////////////////////////////////////////////////////////
-	//convert image data
-	////////////////////////////////////////////////////////////
-	function runImageProc(){
-		var canvas = document.getElementById("myCanvas");
-		var w = canvas.width;
-		var h = canvas.height;
-		var ctx = canvas.getContext("2d");
-		var imgData = ctx.getImageData(0, 0, w, h );
-		
-
-		//Convert Pixels
-		
-		for(y=0;y<h;y++)
-		{
-			for(x=0;x<w;x++)
-			{
-				var index = (x + y * imgData.width) * 4;
-				var r = imgData.data[index+0];
-				var g = imgData.data[index+1];
-				var b = imgData.data[index+2];
-				var a = imgData.data[index+3];
-				
-				//calculate brightness (0x00~0xFF);
-				var brightness = (r+g+b)/3;
-				
-				imgData.data[index+0] = 0;
-				imgData.data[index+1] = 0;
-				imgData.data[index+2] = 0;
-				imgData.data[index+3] = 0xFF-brightness;
-			}
-		}
-		
-		ctx.putImageData(imgData, 0, 0);
-		
-		
-	}
-	
-	////////////////////////////////////////////////////////////
-	//on roll over
-	////////////////////////////////////////////////////////////
-	function FileDragHover(e) {
-		e.stopPropagation();
-		e.preventDefault();
-		e.currentTarget.className = (e.type == "dragover" ? "dragBoxHover" : "dragBox");
-	}
-	
-	////////////////////////////////////////////////////////////
-	//on Image Select
-	////////////////////////////////////////////////////////////
-	var curImg = null;
-	function onImageSelect(e){
-		if(curImg != null){
-			curImg.className = "thumb";
-		}
-		e.currentTarget.className = "thumbSelected";
-		curImg = e.currentTarget;
-		
-		loadImage(curImg.src);
-	}
-
-	////////////////////////////////////////////////////////////
-	//initialize codes
-	////////////////////////////////////////////////////////////
-	
-	document.getElementById('files').addEventListener('change', handleFileSelect, false);
-	var filedrag = document.getElementById("dragDiv");
-	filedrag.addEventListener("dragover", FileDragHover, false);
-	filedrag.addEventListener("dragleave", FileDragHover, false);
-	filedrag.addEventListener("drop", handleFileSelect, false);	
-	
-
-	
-</script>
-
-
-
-<!-- 2. 아래 코드는 라이브리를 설치하시고자 하는 위치에 삽입하시기 바랍니다. -->
-<div id="livereContainer">
-	<script type="text/javascript">
-		var consumer_seq 	= "200";
-		var livere_seq 		= "22695";
-		var smartlogin_seq 	= "228";
-
-		var title = "whiteEraser"
-		var refer = "http://ho4040.github.io/oztools/index.htm?p=whiteEraser"
-
-		livereReply = new Livere( livere_seq , refer , title );
-		livereLib.start();
+	  ga('create', 'UA-59101417-1', 'auto');
+	  ga('send', 'pageview');
 	</script>
-</div>
+	
+	<script type="text/javascript" src="https://101.livere.co.kr/js/livere8_lib.js" charset="utf-8"></script>
+
+</head>
+
+<body>
+	<h1>WHITE ERASER </h1>
+	<img src="http://i.imgur.com/v5vN99w.png" style='border-radius: 10px'><br>
+	위 예제처럼 그림에서 흰색을 투명한 색으로 만들어줍니다. (Like ubove image, white area is changed into transparent area)<br>
+
+	혹시 작동하지 않는다면, 오프라인 버젼인 <a href="http://ho4040.github.io/oztools/index.htm?p=alphaMaker">알파메이커</a>를 사용해보세요.<br>
+
+	<ol>
+	<li>그림파일을 불러옵니다.(Load image what you want to adjust)</li>
+	<li>썸네일을 목록에서 선택합니다.(Select thumbnail from the drag area)</li>
+	<li>하단에 바뀐 이미지가 보이면 마우스 오른쪽 클릭, 다른이름으로 저장!(When you can see the chaged image, right click it and save as PNG file)</li>
+	</ol>
+
+	<input type="file" id="files" name="files[]" multiple />
+
+	<div id="dragDiv" class="dragBox">	
+		<output id="list"><p id="dragLabel" class="centerP">파일을 이곳에 드래그하세요(Drag files here)</p></output>
+	</div>
+	<canvas id="myCanvas"  class="scr" /></canvas>
+
+	<script>
+		////////////////////////////////////////////////////////////
+		//on File select
+		////////////////////////////////////////////////////////////
+		function handleFileSelect(evt){
+		
+			var files = evt.target.files || evt.dataTransfer.files;
+			
+			if(evt.type=="change"){ //by fileSelect Input
+			}
+			else{					//by Drag and drop
+				FileDragHover(evt);
+				document.getElementById("files").innerHTML = "파일" + files.length + "개";
+			}
+			
+			document.getElementById('list').innerHTML = "";
+			
+			// Loop through the FileList and render image files as thumbnails.
+			for (var i = 0, f; f = files[i]; i++)
+			{
+				// Only process image files.
+				if (!f.type.match('image.*')) {
+					continue;
+				}
+
+				var reader = new FileReader();
+				var theFile = f; //for closure
+				reader.onload = function(e){
+					var span = document.createElement('span');
+					var img = document.createElement('img');
+					img.className = "thumb";
+					img.src = e.target.result;
+					img.addEventListener("click", onImageSelect);
+					span.appendChild(img);
+					document.getElementById('list').insertBefore(span, null);
+				};
+				
+				// Read in the image file as a data URL.
+				reader.readAsDataURL(f);
+				
+			}
+		}
+		
+		////////////////////////////////////////////////////////////
+		//load Image
+		////////////////////////////////////////////////////////////
+		function loadImage(dataURL){
+			var canvas = document.getElementById("myCanvas");
+			var imgObj = new Image();
+			imgObj.onload  = function( e ){
+				canvas.width  = imgObj.width;
+				canvas.height  = imgObj.height;
+				var context = canvas.getContext("2d");
+				context.drawImage(imgObj, 0,0);
+				//canvas.toDataURL("image/png");
+				runImageProc();
+			}
+			imgObj.src = dataURL;
+		}
+		
+		////////////////////////////////////////////////////////////
+		//convert image data
+		////////////////////////////////////////////////////////////
+		function runImageProc(){
+			var canvas = document.getElementById("myCanvas");
+			var w = canvas.width;
+			var h = canvas.height;
+			var ctx = canvas.getContext("2d");
+			var imgData = ctx.getImageData(0, 0, w, h );
+			
+
+			//Convert Pixels
+			
+			for(y=0;y<h;y++)
+			{
+				for(x=0;x<w;x++)
+				{
+					var index = (x + y * imgData.width) * 4;
+					var r = imgData.data[index+0];
+					var g = imgData.data[index+1];
+					var b = imgData.data[index+2];
+					var a = imgData.data[index+3];
+					
+					//calculate brightness (0x00~0xFF);
+					var brightness = (r+g+b)/3;
+					
+					imgData.data[index+0] = 0;
+					imgData.data[index+1] = 0;
+					imgData.data[index+2] = 0;
+					imgData.data[index+3] = 0xFF-brightness;
+				}
+			}
+			
+			ctx.putImageData(imgData, 0, 0);
+			
+			
+		}
+		
+		////////////////////////////////////////////////////////////
+		//on roll over
+		////////////////////////////////////////////////////////////
+		function FileDragHover(e) {
+			e.stopPropagation();
+			e.preventDefault();
+			e.currentTarget.className = (e.type == "dragover" ? "dragBoxHover" : "dragBox");
+		}
+		
+		////////////////////////////////////////////////////////////
+		//on Image Select
+		////////////////////////////////////////////////////////////
+		var curImg = null;
+		function onImageSelect(e){
+			if(curImg != null){
+				curImg.className = "thumb";
+			}
+			e.currentTarget.className = "thumbSelected";
+			curImg = e.currentTarget;
+			
+			loadImage(curImg.src);
+		}
+
+		////////////////////////////////////////////////////////////
+		//initialize codes
+		////////////////////////////////////////////////////////////
+		
+		document.getElementById('files').addEventListener('change', handleFileSelect, false);
+		var filedrag = document.getElementById("dragDiv");
+		filedrag.addEventListener("dragover", FileDragHover, false);
+		filedrag.addEventListener("dragleave", FileDragHover, false);
+		filedrag.addEventListener("drop", handleFileSelect, false);	
+		
+
+		
+	</script>
 
 
-<p class="bottom">
-by OZTOOLS( <a href="http://ho4040.github.io/oztools/">http://ho4040.github.io/oztools/</a>)
-<p>
+
+	<!-- 2. 아래 코드는 라이브리를 설치하시고자 하는 위치에 삽입하시기 바랍니다. -->
+	<div id="livereContainer">
+		<script type="text/javascript">
+			var consumer_seq 	= "200";
+			var livere_seq 		= "22695";
+			var smartlogin_seq 	= "228";
+
+			var title = "colorMiner"
+			var refer = "http://ho4040.github.io/oztools/index.htm?p=colorMiner"
+
+			livereReply = new Livere( livere_seq , refer , title );
+			livereLib.start();
+		</script>
+	</div>
+
+
+	<p class="bottom">
+	by OZTOOLS( <a href="http://ho4040.github.io/oztools/">http://ho4040.github.io/oztools/</a>)
+	<p>
+</body>

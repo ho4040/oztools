@@ -1,89 +1,10 @@
-<h1 class="logo">OZTOOLS</h1>
+<a href="http://ho4040.github.io/oztools/index.htm"><h1 class="logo">OZTOOLS</h1></a>
 
-<ul class="menu">
-	<li id="home">Info</li>
-	<li id="whiteEraser">White eraser</li>
-	<li id="alphaMaker">Alpha maker</li>
-	<li id="colorMiner">Color miner</li>
-	<li id="bright2color">Bright2Color</li>
-</ul>
-
-<script>
-
-
-$( document ).ready(function() {
-
-	loadPage = function ( name ){
-		var prefix = "http://ho4040.github.io/oztools/index.htm?p="
-		var ext = ".htm"
-		var fileName = name+ext;
-		var urlStr = prefix+name
-		$.ajax({url: fileName, success: function(result){
-					window.history.pushState(
-						{
-							"html":result,
-							"pageTitle":name
-						},
-						"",
-						urlStr
-					);
-					$("#content").html(result);
-				}})
-
-	}
-
-	getQueryParams = function (qs) {
-		qs = qs.split("+").join(" ");
-
-		var params = {}, tokens,
-			re = /[?&]?([^=]+)=([^&]*)/g;
-
-		while (tokens = re.exec(qs)) {
-			params[decodeURIComponent(tokens[1])]
-				= decodeURIComponent(tokens[2]);
-		}
-
-		return params;
-	}
-
-	
-	$("ul.menu li").hover(
-		function(){ $( this ).addClass( "menuHover" );},
-		function(){ $( this ).removeClass( "menuHover" );}
-	);
-	
-	
-	//add menu buttons
-	$("ul.menu li#home").click(function(){
-		loadPage("home");
-	});
-	
-	$("ul.menu li#whiteEraser").click(function(){
-		loadPage("whiteEraser");
-	});
-	
-	$("ul.menu li#colorMiner").click(function(){
-		loadPage("colorMiner");
-	});
-	
-	$("ul.menu li#alphaMaker").click(function(){
-		loadPage("alphaMaker");
-	});
-	
-	$("ul.menu li#bright2color").click(function(){
-		loadPage("bright2color");
-	});
-	
-	var query = getQueryParams(document.location.search);
-	var page = query['p'];
-	
-	if(page==null){
-		loadPage("home");
-	}else{
-		loadPage(page);
-	}
-});
-</script>
+<a href="home.htm" target='scr'>info</a><br>
+<a href="alphaMaker.htm" target='scr'>alphaMaker</a><br>
+<a href="bright2color.htm" target='scr'>bright2color</a><br>
+<a href="colorMiner.htm" target='scr'>colorMiner</a><br>
+<a href="whiteEraser.htm" target='scr'>whiteEraser</a><br>
 
 <p style='padding-left: 10px'>
 <a href="https://twitter.com/ozlhubby" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false">Follow @ozlhubby</a>
